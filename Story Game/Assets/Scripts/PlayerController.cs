@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
         {
             _velocity += _gravity * gravityMultiplier * Time.deltaTime;
         }
-
         _direction.y = _velocity;
         _moveDir.y = _velocity;
     }
@@ -80,6 +79,10 @@ public class PlayerController : MonoBehaviour
         if (sprintInput == 1){
             sprint = 1.6f;
         } else{sprint = 1.0f;}
+    }
+
+    public void Crouch(InputAction.CallbackContext context){
+        var crouchInput = context.ReadValue<float>();
     }
 
     private bool IsGrounded() => _characterController.isGrounded;
