@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
 
     private void Awake(){
+        Cursor.lockState = CursorLockMode.Locked;
         _characterController = GetComponent<CharacterController>();
     }
 
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
         if (!IsGrounded()) return;
         var sprintInput = context.ReadValue<float>();
         if (sprintInput == 1){
-            sprint = 1.6f;
+            sprint = 1.5f;
         } else{sprint = 1.0f;}
     }
 
