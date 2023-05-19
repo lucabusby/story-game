@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float _currentVelocity;
     private float _gravity = -9.81f;
     private float _velocity;
+    [SerializeField] private float _speedRamp = 0.0f;
     public Transform cam;
     private float sprint = 1.0f;
 
@@ -29,6 +30,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update(){
+        if (_input.sqrMagnitude >= 1 && _speedRamp <= 1.0f) {
+            _speedRamp = (_speedRamp * 1.1f) + 0.01f;
+            if (_speedRamp >= 0.99f){
+                _speedRamp = 1.0f;
+            }
+        } else if (_input.sqrMagnitude == 0 && _speedRamp >= 0.01f) {
+            _speedRamp = _speedRamp * 0.9f;
+            if (_speedRamp <= 0.01f){
+                _speedRamp = 0.0f;
+            }
+        }
         ApplyRotation();
         ApplyGravity();
         ApplyMovement();
@@ -59,12 +71,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ApplyMovement(){
+        _moveDir.x = _moveDir.x * _speedRamp;
+        _moveDir.z = _moveDir.z * _speedRamp;
         _characterController.Move(_moveDir * (speed * sprint) * Time.deltaTime);
     }
 
     public void Move(InputAction.CallbackContext context){
         _input = context.ReadValue<Vector2>();
-        _moveDir = new Vector3(_input.x, 0.0f, _input.y);
         _direction = new Vector3(_input.x, 0.0f, _input.y);
     }
 
