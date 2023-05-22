@@ -1325,7 +1325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b13657c6be8461fb40aca6b1d6eb41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedRamp: 0
   cam: {fileID: 963194228}
   gravityMultiplier: 0.6
   smoothTime: 0.1
@@ -1346,7 +1345,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.3
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1256445054
@@ -1425,7 +1424,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256445054}
-  m_LocalRotation: {x: 0.14142133, y: 0.000000019043977, z: -0.0000000027205673, w: 0.9899495}
+  m_LocalRotation: {x: 0.14142136, y: -0.00000001904397, z: 0.0000000027205669, w: 0.9899495}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1907,8 +1906,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093649142}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.26750004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.138, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
