@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private float sprint = 1.0f;
     private Vector3 hitNormal;
     private bool isSliding;
+    private float sprintInput;
     [SerializeField] private float slideFriction = 0.3f;
 
     [SerializeField] private float gravityMultiplier = 1.0f;
@@ -42,18 +43,29 @@ public class PlayerController : MonoBehaviour
     private void SpeedRamp(){
         //eases out player movement
         if (_input.sqrMagnitude >= 1 && _speedRamp <= 1.0f) {
-            _speedRamp = (_speedRamp * 1.1f) + 0.01f;
+            _speedRamp = (_speedRamp * 1.005f) + 0.001f;
             if (_speedRamp >= 0.99f){
                 _speedRamp = 1.0f;
             }
         } else if (_input.sqrMagnitude == 0 && _speedRamp >= 0.01f) {
-            _speedRamp = _speedRamp * 0.9f;
+            _speedRamp = _speedRamp * 0.995f;
             if (_speedRamp <= 0.01f){
                 _speedRamp = 0.0f;
             }
         }
-        _moveDir.x = _moveDir.x * _speedRamp;
-        _moveDir.z = _moveDir.z * _speedRamp;
+
+        //eases out sprinting
+        if (sprintInput == 1 && sprint <= 1.5f){
+            sprint = sprint * 1.0003f;
+            if (sprint >= 1.49f){
+                sprint = 1.5f;
+            }
+        } else if(sprintInput == 0 && sprint >= 1.01f) {
+            sprint = sprint * 0.999f;
+            if (sprint <= 1.01f){
+                sprint = 1f;
+            }
+        }
 
         //checks if player is sliding
         isSliding = (Vector3.Angle (Vector3.up, hitNormal) <= _characterController.slopeLimit);
@@ -61,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyRotation(){
         // sets rotation of direction to where the player is looking
+        // check for _speedRamp == 0 but it returns to origin
         if (_input.sqrMagnitude == 0) return;
 
         var targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -75,8 +88,7 @@ public class PlayerController : MonoBehaviour
         //checks if player is grounded otherwise pulls player down
         if (IsGrounded() && _velocity <= 0){
             _velocity = -1.0f;
-        } else
-        {
+        } else {
             _velocity += _gravity * gravityMultiplier * Time.deltaTime;
         }
         _direction.y = _velocity;
@@ -89,6 +101,10 @@ public class PlayerController : MonoBehaviour
             _moveDir.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
             _moveDir.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
         }
+
+        _moveDir.x = _moveDir.x * _speedRamp;
+        _moveDir.z = _moveDir.z * _speedRamp;
+
         _characterController.Move(_moveDir * (speed * sprint) * Time.deltaTime);
     }
 
@@ -108,10 +124,7 @@ public class PlayerController : MonoBehaviour
     public void Sprint(InputAction.CallbackContext context){
         //adds sprinting
         if (!IsGrounded()) return;
-        var sprintInput = context.ReadValue<float>();
-        if (sprintInput == 1){
-            sprint = 1.5f;
-        } else{sprint = 1.0f;}
+        sprintInput = context.ReadValue<float>();
     }
 
     public void Crouch(InputAction.CallbackContext context){
