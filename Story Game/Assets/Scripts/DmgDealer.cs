@@ -6,7 +6,7 @@ public class DmgDealer : MonoBehaviour
 {
     public float dmgImpactAmount = 10.0f;
     public float dmgStayAmount = 10.0f;
-    public int dmgStayAmountWait = 2;
+    public float dmgStayAmountWait = 2;
 
     //checks if player is colliding and callin DmgUnit function
     void OnTriggerEnter(Collider trigger)

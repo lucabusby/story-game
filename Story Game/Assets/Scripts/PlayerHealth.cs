@@ -14,12 +14,18 @@ public class PlayerHealth : MonoBehaviour
         if(_currentHealth > 0.0f){
             _currentHealth -= dmgAmount;
         }
+        if(_currentHealth < 0.0f){
+            _currentHealth = 0.0f;
+        }
         Respawn();
     }
 
-    public void DmgUnitOverTime(float dmgAmount, int waitSeconds){
+    public void DmgUnitOverTime(float dmgAmount, float waitSeconds){
         if(_currentHealth > 0.0f && Math.Round(Time.time, 2) % waitSeconds == 0){
             _currentHealth -= dmgAmount;
+        }
+        if(_currentHealth < 0.0f){
+            _currentHealth = 0.0f;
         }
         Respawn();
     }
@@ -33,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void HealUnitOverTime(float healAmount, int waitSeconds){
+    public void HealUnitOverTime(float healAmount, float waitSeconds){
         if(_currentHealth < _currentMaxHealth && Math.Round(Time.time, 2) % waitSeconds == 0){
             _currentHealth += healAmount;
         }
